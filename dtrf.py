@@ -5,7 +5,6 @@ from sklearn import ensemble
 from sklearn.model_selection import train_test_split
 
 
-
 def main():
     #read data
     x = pd.read_csv("train_x.csv").to_numpy()
