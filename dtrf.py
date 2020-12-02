@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib as plt
 from sklearn import tree
 from sklearn import ensemble
 from sklearn.model_selection import train_test_split
@@ -51,7 +52,16 @@ def main():
     print("rf y length",len(rfyhat))
 
     #Plot RF
-    tree.export_graphviz()
+    #Showing the first 5 rfs
+    fn = train_x.columns.values.tolist()
+    fig, axes = plt.subplots(nrows = 1,ncols = 5,figsize = (10,2), dpi=900)
+    for index in range(0, 5):
+        tree.plot_tree(rfclf.estimators_[index],
+                    feature_names = fn, 
+                    filled = True,
+                    ax = axes[index])
+        axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
+
 
 
 
