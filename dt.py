@@ -1,7 +1,6 @@
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from sklearn import tree
-from sklearn import ensemble
 from sklearn.model_selection import train_test_split
 
 
@@ -40,28 +39,7 @@ def main():
 
     #Plot DT
     tree.plot_tree(dtclf)
-
-    #Random Forest
-    rfclf = ensemble.RandomForestClassifier()
-    rfclf.fit(train_x, train_y.ravel())
-    rfyhat = rfclf.predict(train_x)
-    for i in range(len(rfyhat)):
-        if i in row_indices:
-            rfyhat[i] = 0
-    pd.DataFrame(rfyhat).to_csv("rf_yhat.csv", index = False)
-    print("rf y length",len(rfyhat))
-
-    #Plot RF
-    #Showing the first 5 rfs
-    fn = train_x.columns.values.tolist()
-    fig, axes = plt.subplots(nrows = 1,ncols = 5,figsize = (10,2), dpi=900)
-    for index in range(0, 5):
-        tree.plot_tree(rfclf.estimators_[index],
-                    feature_names = fn, 
-                    filled = True,
-                    ax = axes[index])
-        axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
-
+    plt.show()
 
 
 
