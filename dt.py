@@ -28,7 +28,7 @@ def main():
 
 
     #Decision Tree
-    dtclf = tree.DecisionTreeClassifier()
+    dtclf = tree.DecisionTreeClassifier(max_depth=27, min_samples_leaf=10000)
     dtclf.fit(train_x, train_y.ravel())
     dtyhat = dtclf.predict(train_x)
     for i in range(len(dtyhat)):
@@ -39,6 +39,7 @@ def main():
 
     #Plot DT
     tree.plot_tree(dtclf)
+    plt.savefig("dt.png")
     plt.show()
 
 
