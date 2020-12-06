@@ -13,3 +13,5 @@ train_x.csv
 train_y.csv
 dt_yhat.csv
 dtrf.ipynb
+test_x.csv
+test_y.csv

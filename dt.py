@@ -6,7 +6,9 @@ from sklearn.model_selection import train_test_split
 
 def main():
     #read data
-    x = pd.read_csv("train_x.csv").to_numpy()
+    x = pd.read_csv("train_x.csv")
+    fn = x.columns.tolist()
+    x = x.to_numpy()
     y = pd.read_csv("train_y.csv").to_numpy()
     #print("y length",len(y))
     #hide next line, undo it when generate formal output
@@ -28,7 +30,7 @@ def main():
 
 
     #Decision Tree
-    dtclf = tree.DecisionTreeClassifier(max_depth=27, min_samples_leaf=10000)
+    dtclf = tree.DecisionTreeClassifier(max_depth=26, min_samples_leaf=10000)
     dtclf.fit(train_x, train_y.ravel())
     dtyhat = dtclf.predict(train_x)
     for i in range(len(dtyhat)):
@@ -38,8 +40,9 @@ def main():
     print("dt y length",len(dtyhat))
 
     #Plot DT
-    tree.plot_tree(dtclf)
-    plt.savefig("dt.png")
+    fig, axes = plt.subplots(nrows = 1,ncols = 1, dpi=100, figsize=(12, 12))
+    tree.plot_tree(dtclf, feature_names = fn, ax=axes)
+    plt.savefig("dt.png", fontsize=12)
     plt.show()
 
 
