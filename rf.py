@@ -1,14 +1,15 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn import ensemble
-from sklearn.model_selection import train_test_split
+from sklearn import tree
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 
 
 def main():
     #read data
-    train_x = pd.read_csv("train_x.csv").to_numpy()
+    train_x = pd.read_csv("train_x.csv")
+    fn = train_x.columns.tolist()
+    train_x = train_x.to_numpy()
     train_y = pd.read_csv("train_y.csv").to_numpy()
     test_x = pd.read_csv("test_x.csv").to_numpy()
     test_y = pd.read_csv("test_y.csv").to_numpy()
@@ -32,19 +33,14 @@ def main():
     print("train_f1", train_f1)
     print("test_f1", test_f1)
 
-    '''
-    #Showing the first 5 rfs
-    fn = train_x.columns.values.tolist()
-    fig, axes = plt.subplots(nrows = 1,ncols = 5,figsize = (10,2), dpi=900)
-    for index in range(0, 5):
-        tree.plot_tree(rfclf.estimators_[index],
-                    feature_names = fn, 
-                    filled = True,
-                    ax = axes[index])
-        axes[index].set_title('Estimator: ' + str(index), fontsize = 11)
-    plt.show()
-    '''
 
+    
+    #Showing the first 5 rfs
+    for index in range(0, 5):
+        rules = tree.export_text(decision_tree = clf.estimators_[index], feature_names = fn)
+        filename = "rfrules" + str(index + 1) + ".txt"
+        with open(filename, "w") as text_file:
+            text_file.write(rules)
 
 
 if __name__ == "__main__":

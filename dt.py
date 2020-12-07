@@ -1,17 +1,16 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn import tree
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 
 
+
 def main():
     #Read Data
-    #train_x = pd.read_csv("train_x.csv")
-    #fn = train_x.columns.tolist()
-    #train_x = train_x.to_numpy()
-    train_x = pd.read_csv("train_x.csv").to_numpy()
+    train_x = pd.read_csv("train_x.csv")
+    fn = train_x.columns.tolist()
+    train_x = train_x.to_numpy()
+    #train_x = pd.read_csv("train_x.csv").to_numpy()
     train_y = pd.read_csv("train_y.csv").to_numpy()
     test_x = pd.read_csv("test_x.csv").to_numpy()
     test_y = pd.read_csv("test_y.csv").to_numpy()
@@ -31,12 +30,13 @@ def main():
     train_x, test_x, train_y, test_y = train_test_split(x, y, test_size=0.33, random_state=42)
     '''
 
-
     #Decision Tree
     clf = tree.DecisionTreeClassifier()#(max_depth=26)#, min_samples_leaf=10000)
     clf.fit(train_x, train_y.ravel())
     train_yhat = clf.predict(train_x)
     test_yhat = clf.predict(test_x)
+
+    
 
     #Metrics
     train_acc = accuracy_score(train_y, train_yhat)
@@ -51,6 +51,14 @@ def main():
     print("train_f1", train_f1)
     print("test_f1", test_f1)
 
+
+    #Decision Path
+    rules = tree.export_text(decision_tree = clf, feature_names = fn)
+    print(type(rules))
+    with open("dtrules.txt", "w") as text_file:
+        text_file.write(rules)
+    #tree.export_graphviz(clf, out_file='dt.dot')
+    
 
 
     #for i in range(len(dtyhat)):
